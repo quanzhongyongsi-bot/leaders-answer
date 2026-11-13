@@ -361,7 +361,7 @@ function renderJobs(){
     const dedicated = TYPES.filter(t=>{ const jj = t.sel && t.sel.jobs; return jj && jj.includes(j.key); }).length;
     return '<button class="tile' + (cur===j.key ? ' cur' : '') + '" data-jobpick="' + j.key + '"><img src="' + (JOB_ICONS[j.key] || IC_BOOK) + '" alt=""><span>' + esc(j.label) + '</span>' + (cur===j.key ? '<span class="curmark">選択中</span>' : '') + '</button>';
   }).join('') + '</div>';
-  if(cur){ const cj = JOBS.find(j=>j.key===cur); if(cj) h += '<p class="small">現在は「' + esc(cj.label) + '」の中身になっています。別の職業をタップすると切り替わります。</p>'; }
+  if(cur){ const cj = JOBS.find(j=>j.key===cur); if(cj) h += '<p class="small">現在は「' + esc(cj.label) + '」の中身になっています。下の「探す・聞く」や「今日」から、その職業の中身を確認できます。別の職業をタップすると切り替わります。</p>'; }
   $main.innerHTML = h;
   $main.querySelectorAll('[data-jobpick]').forEach(b=>b.addEventListener('click', ()=>{
     const key = b.dataset.jobpick;
@@ -371,7 +371,7 @@ function renderJobs(){
     profDraft = null;
     const j = JOBS.find(x=>x.key===key);
     toast('「' + (j ? j.label : key) + '」の中身に切り替えました');
-    setTab('today');
+    go('jobs');
   }));
 }
 let typeReturn = {view:'today', arg:null};
