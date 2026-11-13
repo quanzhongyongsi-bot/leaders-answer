@@ -128,6 +128,14 @@ body.hasbg .emg{background:rgba(249,238,238,.94);}
 .bggrid .bl{display:block; font-size:.72rem; color:var(--navy); padding:6px 2px; font-weight:600;}
 .navic{width:32px; height:32px; border-radius:10px; object-fit:cover; display:block; margin:0 auto 2px; box-shadow:0 2px 7px rgba(20,24,50,.3);}
 nav.tabs button.on .navic{outline:2px solid var(--gold); outline-offset:1px;}
+body[data-section="today"]{--secpale:#d8efdb;}
+body[data-section="explore"]{--secpale:#fadfe9;}
+body[data-section="records"]{--secpale:#fbf0c6;}
+body[data-section="settings"]{--secpale:#fadbd7;}
+body[data-section] h1.page{background:var(--secpale); color:var(--navy); text-shadow:none;}
+body[data-section] h2.sec{background:var(--secpale); color:var(--navy); text-shadow:none; padding:10px 14px; border-radius:12px;}
+body[data-section] .card{background:var(--secpale);}
+button.back, .back{background:var(--secpale); color:var(--navy); font-weight:600; padding:9px 18px; border-radius:999px; box-shadow:0 2px 8px rgba(20,24,50,.28); margin:8px 0 6px; border:none;}
 .tile span{display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; line-height:1.35; min-height:2.1em;}
 h1.page{padding:13px 16px; border-radius:14px;}
 body[data-section="today"] h1.page{background:#dcf0dc; text-shadow:none;}
@@ -237,7 +245,7 @@ document.querySelectorAll('nav.tabs button').forEach(b=>{ b.addEventListener('cl
 function render(){
   applyBg();
   const v = window.__view || 'today';
-  const SECMAP = {today:'today', review:'today', profile:'today', emergency:'today', explore:'explore', checklist:'explore', gaps:'explore', records:'records', day:'records', weekly:'records', settings:'settings', about:'settings', terms:'settings', typedata:'settings', backgrounds:'settings', datamanage:'settings'};
+  const SECMAP = {today:'today', review:'today', profile:'today', emergency:'today', explore:'explore', scene:'explore', checklist:'explore', gaps:'explore', records:'records', day:'records', weekly:'records', settings:'settings', about:'settings', terms:'settings', typedata:'settings', backgrounds:'settings', datamanage:'settings'};
   document.body.dataset.section = (v==='type') ? (currentTab==='explore' ? 'explore' : 'today') : (SECMAP[v] || 'today');
   if(v==='today') renderToday();
   else if(v==='explore') renderExplore(window.__arg);
@@ -250,12 +258,13 @@ function render(){
   else if(v==='day') renderDay(window.__arg);
   else if(v==='weekly') renderWeekly();
   else if(v==='checklist') renderChecklist(window.__arg);
-  else if(v==='gaps') renderGaps();
+  else if(v==='gaps') renderGaps(window.__arg);
   else if(v==='about') renderAbout();
   else if(v==='terms') renderTerms();
   else if(v==='typedata') renderTypeData();
   else if(v==='backgrounds') renderBackgrounds();
   else if(v==='datamanage') renderDataManage();
+  else if(v==='scene') renderScene(window.__arg);
 }
 
 /* ---------- morning selection (06 0-2 の単純ルール) ---------- */
@@ -426,8 +435,15 @@ let exploreScene = 'meeting';
 function renderExplore(arg){
   if(arg && SCENE_LABEL[arg]) exploreScene = arg;
   let h = '<h1 class="page">探す・聞く</h1>';
-  h += '<div class="grid">' + SCENES.map(s=>'<button class="tile'+(s.key===exploreScene?' on':'')+'" data-scene="'+s.key+'"><img src="'+(SCENE_ICONS[s.key]||'')+'" alt=""><span>'+esc(s.label)+'</span></button>').join('') + '</div>';
+  h += '<div class="grid">' + SCENES.map(s=>'<button class="tile" data-scene="'+s.key+'"><img src="'+(SCENE_ICONS[s.key]||'')+'" alt=""><span>'+esc(s.label)+'</span></button>').join('') + '</div>';
+  $main.innerHTML = h;
+  $main.querySelectorAll('[data-scene]').forEach(b=>b.addEventListener('click', ()=>go('scene', b.dataset.scene)));
+}
+function renderScene(scene){
+  if(scene && SCENE_LABEL[scene]) exploreScene = scene;
   const list = TYPES.filter(t=>t.scene===exploreScene);
+  let h = '<button class="back" id="bk">← 戻る</button>';
+  h += '<h1 class="page">'+esc(SCENE_LABEL[exploreScene])+'</h1>';
   h += '<div class="grid">' + list.map(t=>'<button class="tile" data-open-type="'+esc(t.id)+'"><img src="'+(SCENE_ICONS[t.scene]||'')+'" alt=""><span>'+esc(t.name)+'</span></button>').join('') + '</div>';
   let extra = '';
   const cl = CHECKLISTS.find(c=>c.scene===exploreScene);
@@ -435,9 +451,9 @@ function renderExplore(arg){
   if(GAPS.length){ extra += '<button class="tile" id="openGaps"><img src="'+(SCENE_ICONS[exploreScene]||'')+'" alt=""><span>まだ用意できていないもの</span></button>'; }
   if(extra){ h += '<div class="grid">' + extra + '</div>'; }
   $main.innerHTML = h;
-  $main.querySelectorAll('[data-scene]').forEach(b=>b.addEventListener('click', ()=>{ exploreScene=b.dataset.scene; renderExplore(); }));
+  document.getElementById('bk').addEventListener('click', ()=>setTab('explore'));
   const oc = document.getElementById('openChecklist'); if(oc) oc.addEventListener('click', ()=>go('checklist', exploreScene));
-  const og = document.getElementById('openGaps'); if(og) og.addEventListener('click', ()=>go('gaps'));
+  const og = document.getElementById('openGaps'); if(og) og.addEventListener('click', ()=>go('gaps', exploreScene));
   bindTypeCards($main);
 }
 function renderChecklist(scene){
@@ -455,19 +471,19 @@ function renderChecklist(scene){
     h += '</div>';
   }
   $main.innerHTML = h;
-  document.getElementById('bk').addEventListener('click', ()=>go('explore', scene));
+  document.getElementById('bk').addEventListener('click', ()=>go('scene', scene));
   $main.querySelectorAll('[data-check]').forEach(cb=>cb.addEventListener('change', ()=>{
     const td = todayStr(); if(!checksState[td]) checksState[td] = {};
     checksState[td][cb.dataset.check] = cb.checked; save(K.checks, checksState);
   }));
 }
-function renderGaps(){
+function renderGaps(arg){
   let h = '<button class="back" id="bk">← 戻る</button>';
-  h += '<h1 class="page">まだ用意できていないもの</h1><p class="lead">範囲として、正直に示します。</p><div class="card">'
+  h += '<h1 class="page">まだ用意できていないもの</h1><div class="card">'
     + GAPS.map(g=>'<p style="margin:10px 0;"><strong>'+esc(g.title)+'</strong><br><span class="small">'+esc(g.handling||'')+'</span></p>').join('')
     + '</div>';
   $main.innerHTML = h;
-  document.getElementById('bk').addEventListener('click', ()=>go('explore'));
+  document.getElementById('bk').addEventListener('click', ()=>{ if(arg) go('scene', arg); else go('explore'); });
 }
 </script>
 <script>
