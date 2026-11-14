@@ -178,6 +178,8 @@ body[data-section="settings"] .card{background:rgba(252,231,228,.94);}
 body[data-section="explore"]{--secpale:#ffdfba;}
 body[data-section="explore"] h1.page{background:#ffdfba;}
 body[data-section="explore"] .card{background:#ffdfba;}
+nav.tabs{background:transparent; border-top:none; display:flex; justify-content:space-evenly; max-width:560px; margin:0 auto;}
+nav.tabs button{flex:1; text-shadow:0 0 6px rgba(255,255,255,.95), 0 0 4px rgba(255,255,255,.95), 0 1px 2px rgba(255,255,255,.8);}
 </style>
 </head>
 <body>
@@ -754,6 +756,83 @@ Object.assign(PROF_TILES, {
     {id:"mfg_setup", label:"段取り替えと標準作業", article:"art_mfg_setup", note:"TPS・5Sの精読は無く、概念までに留めています。"},
     {id:"mfg_trainee", label:"新人・実習生の受け入れ", article:"art_mfg_trainee", note:"制度の公的情報は未調査です。要追加リサーチの項目です。"},
     {id:"mfg_quals", label:"資格・免許の地図", article:"art_mfg_quals"}
+  ]}
+});
+
+/* ---------- 職業別 第6弾: 建設 ---------- */
+Object.assign(ARTICLES, {
+  art_cst_quals: { source:"法令・実施団体の公式情報で確認した内容です（2026-11-14）。詳細は各実施機関の最新の案内で確認してください。", blocks:[
+    {h:"現場を預かる側への道筋", ul:[
+      "施工管理技士: 建設業法の技術検定（国家資格）。種目は7つ（土木・建築・電気工事・管工事・造園・建設機械・電気通信工事）、各1級・2級。第一次検定と第二次検定の両方に合格すると「技士」、第一次のみは「技士補」。2級は主任技術者、1級は監理技術者にもなれる（監理技術者には監理技術者講習の受講が条件）"]},
+    {h:"法定の役職（資格ではないが、地図の中心）", ul:[
+      "主任技術者・監理技術者（建設業法第26条）: 請負工事の現場に置く技術上の責任者",
+      "統括安全衛生責任者・元方安全衛生管理者・店社安全責任者（安衛法第15条・第15条の2・第15条の3）: 元請の現場の安全衛生の役職",
+      "安全衛生責任者（安衛法第16条）: 下請側で作業員を指揮監督する者。多くは職長が選任される"]},
+    {h:"班を預かる人の入口", ul:[
+      "職長・安全衛生責任者教育: 安衛法の法定教育。建設では職長教育（12時間）と安全衛生責任者教育（2時間）を合わせた14時間で一体化して行われるのが一般的。試験はなく、全時間の受講で修了。おおむね5年ごとに能力向上教育を受けることが求められている"]},
+    {h:"作業に要る資格", ul:[
+      "作業主任者（安衛法第14条）: 技能講習の修了者から選任する。「明日の作業に作業主任者が要るか、誰が持っているか」は、着工前の段取りと朝の確認事項そのもの。選任漏れは現場を止める",
+      "技能講習（就業制限）: フォークリフト・玉掛け・車両系建設機械の運転等",
+      "免許: 移動式クレーン運転士・クレーン・デリック運転士（つり上げ荷重5トン以上の運転）"]},
+    {h:"特別教育（技能講習より数が多い）", ul:[
+      "フルハーネス型墜落制止用器具の特別教育: 学科4.5時間＋実技1.5時間。6.75mを超える場所ではフルハーネス型が必須（建設作業では5mを超える場所で使うことがガイドライン上の扱い）",
+      "その他、足場の組立て等作業、自由研削といしの取替え等も対象。事業者が行い、記録は3年間保存"]},
+    {h:"職人の到達目標", ul:[
+      "登録基幹技能者: 国土交通大臣の登録を受けた機関の講習を修了すると認められる。実務10年以上・職長経験3年以上が要件の例。経営事項審査の加点対象になり、職種によっては主任技術者等の要件も満たす",
+      "建築士（一級・二級・木造）: 設計・工事監理側の資格として地図の端に置く。現場側の資格は施工管理技士が中心"]}
+  ]},
+  art_cst_weather: { source:"止める条件を先に決める考え方は、型 CST-02 の天候への広げ方です。気象条件の数値（風速等）は法令の細目の確認が取れていないため、このアプリには入れていません。", blocks:[
+    {h:"判断の手順", ul:[
+      "止める条件を先に決めておく",
+      "止める判断は早く、全員に一斉に伝える",
+      "再開の前に点検する"]}
+  ]},
+  art_cst_newcomer: { source:"研究カード G01 型E と研究13 建設-Q8 が材料です。教育制度の実務の細目（帳票・時間）は追加リサーチの対象です。", blocks:[
+    {h:"受け入れの段取り", ul:[
+      "新規入場者教育・送り出し教育の確認をする",
+      "初日の声かけと、危険箇所の伝え方を先に決める"]}
+  ]},
+  art_cst_records: { source:"根拠が一般論の段階です。施工管理の実務資料の精読が済んだら格付けを見直します。", blocks:[
+    {h:"作法", ul:[
+      "その日の施工状況・出来形の写真を残す",
+      "作業記録をその日のうちに残す",
+      "検査と引き渡しで困らない形でそろえる"]}
+  ]},
+  art_cst_handover: { source:"根拠は一般実務のみです。追加リサーチの後に格付けを見直します。", blocks:[
+    {h:"段取り", ul:[
+      "指摘は事実で受け取る",
+      "是正の段取り（誰が・いつまで）を決める",
+      "施主への説明は、決まった段取りと合わせて行う"]}
+  ]}
+});
+Object.assign(PROF_TILES, {
+  construction: { tiles: [
+    {id:"cst_appoint", label:"選任・資格の確認", article:"art_cst_quals", checksTitle:"今日の選任・資格の点検", checks:[
+      {id:"CST-Q1", text:"今日の作業に要る作業主任者がそろっている"},
+      {id:"CST-Q2", text:"有資格者（技能講習・免許）が配置についている"},
+      {id:"CST-Q3", text:"特別教育の要否を確認した"},
+      {id:"CST-Q4", text:"不足がある場合は、作業を始めずに段取りを組み直す"}
+    ]},
+    {id:"cst_heat", label:"朝の熱中症点検", scene:"morning_briefing", lead:["CST-01","CST-02"], checksTitle:"熱中症の朝礼3点確認", checks:[
+      {id:"CST-H1", text:"WBGTの数値を確認し、区分を判定した"},
+      {id:"CST-H2", text:"休憩と給水の時刻を宣言した"},
+      {id:"CST-H3", text:"体調の要注意者を確認した"},
+      {id:"CST-H4", text:"段取りを組み直した（重作業の時間帯をずらす等）"},
+      {id:"CST-H5", text:"備え（飲料・塩分・休憩場所）を確認した"}
+    ]},
+    {id:"cst_weather", label:"天候と作業可否の判断", article:"art_cst_weather", note:"気象条件の数値は未確認のため入れていません。判断の手順までに留めています。"},
+    {id:"cst_meeting", label:"工程会議", scene:"meeting", lead:["CST-03"], checksTitle:"工程会議の点検", checks:[
+      {id:"CST-E1", text:"書面で先に取ったか"},
+      {id:"CST-E2", text:"遅れと無理を出したか"},
+      {id:"CST-E3", text:"発言順を現場からにしたか"},
+      {id:"CST-E4", text:"決まったことを記録したか"}
+    ]},
+    {id:"cst_claim", label:"近隣からの苦情への初動", scene:"claim_customer", lead:["CST-04"]},
+    {id:"cst_newcomer", label:"新規入場者の受け入れ", article:"art_cst_newcomer", note:"教育制度の実務の細目は追加リサーチの対象です。"},
+    {id:"cst_records", label:"写真と記録の残し方", article:"art_cst_records", note:"根拠は一般論の段階です。"},
+    {id:"cst_handover", label:"検査と引き渡しの段取り", article:"art_cst_handover", note:"根拠は一般実務のみです。"},
+    {id:"cst_bridge", label:"世代の橋渡し", scene:"coaching_guidance", note:"現状は共通の型の転用です。建設固有の作り方は追加リサーチのうえで判断します。"},
+    {id:"cst_night", label:"1日の振り返りと記録", scene:"night_review"}
   ]}
 });
 
