@@ -1450,6 +1450,84 @@ Object.assign(PROF_TILES, {
   ]}
 });
 
+/* ---------- 職業別 第14弾: 事務・オフィス ---------- */
+Object.assign(ARTICLES, {
+  art_ofc_eval: { source:"研究22で型の候補（EVL系）まで作成済みです。アプリへの正式な型としての収録はこれからで、ここでは考え方の枠を示します。", blocks:[
+    {h:"評価面談の考え方", ul:[
+      "評価を伝える場と、育成の場を分ける",
+      "結果と評価の対応を、具体で示す",
+      "次の目標の置き方を一緒に決める",
+      "日常の1on1へ接続する"]}
+  ]},
+  art_ofc_interview: { source:"研究22の候補（INT系）と厚生労働省の公正な採用選考の考え方に基づきます。アプリへの正式な型としての収録はこれからです。", blocks:[
+    {h:"採用面接の段取り", ul:[
+      "聞かない事項を事前に除外する（公正な採用選考の考え方に沿う）",
+      "質問と物差しを事前に固定する",
+      "面接の段取りを決める",
+      "大変な面も渡す仕事説明をする"]}
+  ]},
+  art_ofc_care: { source:"研究カード H08・H09・H16 と、メンタルヘルス・マネジメント検定II種（ラインケア）の知識体系に基づきます。", blocks:[
+    {h:"相談の受け方", ul:[
+      "部下の不調・ハラスメント相談の聴き方を分ける",
+      "事実確認をする",
+      "産業保健・人事・外部窓口へ接続する"]}
+  ]},
+  art_ofc_meeting: { source:"進め方は共通の型（MTG群）に基づきます。議事録・決定事項の共有の型は要追加リサーチです。", blocks:[
+    {h:"会議の運用", ul:[
+      "会議の目的と決めることを先に置く",
+      "議事録・決定事項の共有の型をそろえる"]}
+  ]},
+  art_ofc_negotiation: { source:"研究22で候補（NEG系）がありますが正式化はこれからです。価格交渉は営業色が強く、事務リーダーの適用範囲の切り分けが未了のため、ここでは考え方の枠までに留めます。", blocks:[
+    {h:"交渉の考え方", ul:[
+      "原則型交渉の準備と進め方",
+      "最初の提示の扱い",
+      "価格交渉の法的枠組みの確認先"]}
+  ]},
+  art_ofc_manners: { source:"秘書検定・サービス接遇検定の体系を物差しにしています。現場の型への落とし込みは設計が要ります。", blocks:[
+    {h:"基本マナーの型", ul:[
+      "電話の取次ぎ・折り返しの型",
+      "来客応対",
+      "メールの作法"]}
+  ]},
+  art_ofc_handover: { source:"要追加リサーチのため、当面は「型の枠」までに留めています。", blocks:[
+    {h:"引き継ぎ資料の枠", ul:[
+      "業務の一覧",
+      "締切の一覧",
+      "関係者の一覧",
+      "資料の置き場所"]}
+  ]},
+  art_ofc_quals: { source:"各検定の公式情報で確認した内容です（2026-11-14）。詳細は各実施団体の最新の案内で確認してください。", blocks:[
+    {h:"物差し系", ul:[
+      "秘書検定: 仕事の基本・マナーの物差し",
+      "MOS（マイクロソフト オフィス スペシャリスト）: パソコン実技の証明",
+      "ITパスポート試験: ITの基礎知識の国家試験"]},
+    {h:"業務知識系", ul:[
+      "日商簿記検定: 経理・数字の基礎",
+      "ビジネス実務法務検定試験: 法務・コンプライアンスの物差し"]},
+    {h:"リーダー固有", ul:[
+      "メンタルヘルス・マネジメント検定試験 II種（ラインケアコース）: 部下のメンタルヘルス対応の知識体系。相談の受け方・残業管理と直結する、オフィスのリーダーに最も固有の検定"]}
+  ]}
+});
+Object.assign(PROF_TILES, {
+  office: { tiles: [
+    {id:"ofc_eval", label:"評価面談・目標設定", article:"art_ofc_eval", note:"型の候補は研究段階です。アプリへの正式収録はこれからです。"},
+    {id:"ofc_interview", label:"採用面接", article:"art_ofc_interview", note:"型の候補は研究段階です。アプリへの正式収録はこれからです。"},
+    {id:"ofc_care", label:"相談の受け方・ラインケア", scene:"one_on_one", article:"art_ofc_care"},
+    {id:"ofc_meeting", label:"会議の設計と進め方", scene:"meeting", article:"art_ofc_meeting"},
+    {id:"ofc_negotiation", label:"取引先・他部署との交渉", article:"art_ofc_negotiation", note:"交渉の型は研究段階です。ここでは考え方の枠までに留めています。"},
+    {id:"ofc_manners", label:"電話・メール・来客の基本マナー", article:"art_ofc_manners"},
+    {id:"ofc_overtime", label:"残業と締切の管理", checksTitle:"残業と締切の点検", checks:[
+      {id:"OFC-O1", text:"業務の棚卸しをした"},
+      {id:"OFC-O2", text:"配分の調整をした"},
+      {id:"OFC-O3", text:"時間外の上限を点検した"},
+      {id:"OFC-O4", text:"繁忙期の前の段取りを決めた"}
+    ]},
+    {id:"ofc_morning", label:"朝会・申し送り", scene:"morning_briefing", note:"朝会固有の精読はありません。現場実態からの設計です。"},
+    {id:"ofc_handover", label:"引き継ぎの型", article:"art_ofc_handover", note:"当面は型の枠までです。要追加リサーチです。"},
+    {id:"ofc_quals", label:"資格・検定の案内", article:"art_ofc_quals"}
+  ]}
+});
+
 function profTileIcon(job, t){
   if(t.icon && SCENE_ICONS[t.icon]) return SCENE_ICONS[t.icon];
   if(t.scene && SCENE_ICONS[t.scene]) return SCENE_ICONS[t.scene];
