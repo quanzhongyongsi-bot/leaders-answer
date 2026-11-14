@@ -180,6 +180,7 @@ body[data-section="explore"] h1.page{background:#ffdfba;}
 body[data-section="explore"] .card{background:#ffdfba;}
 nav.tabs{background:transparent; border-top:none; display:flex; justify-content:space-evenly; max-width:560px; margin:0 auto;}
 nav.tabs button{flex:1; text-shadow:0 0 6px rgba(255,255,255,.95), 0 0 4px rgba(255,255,255,.95), 0 1px 2px rgba(255,255,255,.8);}
+summary{font-weight:700; text-shadow:0 0 6px rgba(255,255,255,.95), 0 0 4px rgba(255,255,255,.95), 0 1px 3px rgba(255,255,255,.9);}
 </style>
 </head>
 <body>
@@ -1108,6 +1109,65 @@ Object.assign(PROF_TILES, {
     {id:"bty_repeat", label:"次回予約とリピートの段取り", article:"art_bty_repeat", note:"実務の一般論です。要追加リサーチの項目です。"},
     {id:"bty_manner", label:"基本マナー・接遇", article:"art_bty_manner"},
     {id:"bty_quals", label:"資格・検定の案内", article:"art_bty_quals"}
+  ]}
+});
+
+/* ---------- 職業別 第10弾: 対人サービス ---------- */
+Object.assign(ARTICLES, {
+  art_svc_claim: { source:"研究カード L09 と研究13 対人サービス-Q2（評価A）、型 CLM-01・02・06・07 に基づきます。", blocks:[
+    {h:"初動と線引き", ul:[
+      "責任者が出る基準を先に決める",
+      "謝罪は限定的にする（事実の範囲で）",
+      "土下座等の過度な要求には線を引く",
+      "その場で結論を出さない",
+      "終わった後のスタッフのケアまで行う"]}
+  ]},
+  art_svc_protect: { source:"研究カード L07 と研究13 対人サービス-Q5（評価A）に基づきます。", blocks:[
+    {h:"感情労働の設計", ul:[
+      "表示規則（表に出す表情・言葉の決まり）を表出で書く",
+      "重い接点の棚卸しをする",
+      "対応直後の離脱と、裏方への切り替えを認める",
+      "バックステージ（お客様に見えない回復の場所・時間）を確保する"]}
+  ]},
+  art_svc_harass: { source:"研究カード H08／H09 に基づきます。", blocks:[
+    {h:"相談の受け方", ul:[
+      "急かさず聴く",
+      "言ってはいけない言葉を避け、事実を記録する",
+      "次の段取りと、返す期限を伝える"]}
+  ]},
+  art_svc_manner: { source:"サービス接遇検定（実務技能検定協会）の審査領域が物差しです。細部は業態ごとの実務に合わせます。", blocks:[
+    {h:"接遇の物差し", ul:[
+      "サービス業務に対する心構え",
+      "対人心理の理解",
+      "応対の技術",
+      "口のきき方",
+      "態度・振る舞い"]}
+  ]},
+  art_svc_quals: { source:"各制度・実施団体の公式情報で確認した内容です（2026-11-14）。対人サービスは幅が広い区分のため、「共通の物差し」と「業態別の代表例」に分けています。自治体窓口の業務には、対応する個人資格は基本的に存在しません（手続きの知識は各自治体・制度の研修の領域です）。", blocks:[
+    {h:"共通の物差し（業態を越えて使えるもの）", ul:[
+      "サービス接遇検定: 実務技能検定協会。「サービスマインドの育成」を目的とし、心構え・対人心理の理解・応対の技術・口のきき方・態度・振る舞いを審査。3級・2級・準1級・1級",
+      "秘書検定: 実務技能検定協会。名称は「秘書」だが実態は社会人の基本常識・ビジネスマナーの検定。窓口・受付業務の電話応対、文書、来客対応等の一般マナーの底上げに使える",
+      "電話応対技能検定（もしもし検定）: 日本電信電話ユーザ協会の民間検定。4級（入門）・3級・2級・1級・指導者級の5段階。電話応対のエキスパート・社内指導者の育成が目的",
+      "コンタクトセンター検定試験: 日本コンタクトセンター教育検定協会。知識体系（CMBOK）に基づく認定制度で、エントリー／オペレーター／スーパーバイザーのオペレーション資格と、上位のプロフェッショナル資格がある",
+      "サービス介助士: 日本ケアフィット共育機構の民間資格。高齢者・障害のある人への手助けの心構えと介助技術を学ぶ。通信課題・実技教習・検定試験で取得し、認定は3年間の更新制。窓口・受付・フィットネス等、高齢の利用者が多い現場で意味が大きい"]},
+    {h:"業態別の代表例", ul:[
+      "美容・サロン: 美容師（国家資格・業務独占）と管理美容師（常時2名以上の美容所に配置義務）。詳しくは「美容・サロン」の資格・検定の案内にあります",
+      "フィットネス: 健康運動指導士（健康・体力づくり事業財団の認定資格で、国家資格ではない）。個々人の心身の状態に応じた安全で効果的な運動プログラムの作成と指導を行う専門家。養成講習会または認定養成校で学び、認定試験に合格して登録する。更新制"]}
+  ]}
+});
+Object.assign(PROF_TILES, {
+  service: { tiles: [
+    {id:"svc_claim", label:"強いクレーム・カスハラの初動とスタッフの引き取り", scene:"claim_customer", article:"art_svc_claim"},
+    {id:"svc_protect", label:"スタッフの消耗を防ぐ配置（感情労働の設計）", article:"art_svc_protect"},
+    {id:"svc_harass", label:"ハラスメント・困りごとの相談の受け方", article:"art_svc_harass"},
+    {id:"svc_morning", label:"朝の段取り確認", scene:"morning_briefing"},
+    {id:"svc_feedback", label:"注意・伝え方", scene:"feedback_correction"},
+    {id:"svc_coach", label:"指導・育成", scene:"coaching_guidance"},
+    {id:"svc_meeting", label:"定例の進め方", scene:"meeting", note:"大規模な「会議」ではなく、小規模の定例として作り直した区分です。"},
+    {id:"svc_oneonone", label:"個別の聞き取り", scene:"one_on_one", note:"短時間の聞き取りとして作り直した区分です。"},
+    {id:"svc_night", label:"1日の振り返り", scene:"night_review"},
+    {id:"svc_manner", label:"基本マナー・接遇", article:"art_svc_manner"},
+    {id:"svc_quals", label:"資格・検定の案内", article:"art_svc_quals"}
   ]}
 });
 
