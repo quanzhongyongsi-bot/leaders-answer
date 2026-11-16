@@ -199,32 +199,26 @@ body[data-section] input[type=time], body[data-section] input[type=number]{backg
 .pframe .pf-name{font-weight:600; color:var(--navy);}
 details.fold{margin:12px 0;}
 details.fold>summary{cursor:pointer; background:var(--secpale); color:var(--navy); padding:10px 14px; border-radius:12px;}
-/* ==== 読みやすさ試作1 2026-11-16: 背景の上に直置きの文字をくっきりさせる ==== */
+/* ==== 読みやすさ試作2 2026-11-16: 白い文字＋赤い縁取り ==== */
 body.hasbg .tile span{
   color:#ffffff; font-weight:700;
-  text-shadow:1px 0 0 rgba(10,14,30,.88), -1px 0 0 rgba(10,14,30,.88), 0 1px 0 rgba(10,14,30,.88), 0 -1px 0 rgba(10,14,30,.88), 1px 1px 0 rgba(10,14,30,.88), -1px 1px 0 rgba(10,14,30,.88), 1px -1px 0 rgba(10,14,30,.88), -1px -1px 0 rgba(10,14,30,.88), 0 2px 7px rgba(10,14,30,.6);
+  text-shadow:1px 0 0 #d40000, -1px 0 0 #d40000, 0 1px 0 #d40000, 0 -1px 0 #d40000, 1px 1px 0 #d40000, -1px 1px 0 #d40000, 1px -1px 0 #d40000, -1px -1px 0 #d40000, 0 2px 7px rgba(120,0,0,.55);
 }
 body.hasbg p.small{
-  color:#ffffff; font-weight:600;
-  background:rgba(12,16,34,.52);
-  padding:5px 10px; border-radius:9px;
-  text-shadow:0 1px 2px rgba(0,0,0,.5);
+  color:#ffffff; font-weight:700;
+  text-shadow:1px 0 0 #d40000, -1px 0 0 #d40000, 0 1px 0 #d40000, 0 -1px 0 #d40000, 1px 1px 0 #d40000, -1px 1px 0 #d40000, 1px -1px 0 #d40000, -1px -1px 0 #d40000, 0 2px 6px rgba(120,0,0,.5);
 }
 body.hasbg header.app .en{
-  text-shadow:1px 0 0 rgba(255,255,255,.92), -1px 0 0 rgba(255,255,255,.92), 0 1px 0 rgba(255,255,255,.92), 0 -1px 0 rgba(255,255,255,.92), 0 2px 9px rgba(255,255,255,.85);
+  color:#ffffff;
+  text-shadow:1px 0 0 #d40000, -1px 0 0 #d40000, 0 1px 0 #d40000, 0 -1px 0 #d40000, 1px 1px 0 #d40000, -1px 1px 0 #d40000, 1px -1px 0 #d40000, -1px -1px 0 #d40000, 0 2px 8px rgba(120,0,0,.5);
 }
 body.hasbg header.app .jp{
-  text-shadow:1px 0 0 rgba(255,255,255,.9), -1px 0 0 rgba(255,255,255,.9), 0 1px 0 rgba(255,255,255,.9), 0 -1px 0 rgba(255,255,255,.9), 0 1px 6px rgba(255,255,255,.9);
-}
-body.bgdark header.app .en{
-  text-shadow:1px 0 0 rgba(10,14,30,.8), -1px 0 0 rgba(10,14,30,.8), 0 1px 0 rgba(10,14,30,.8), 0 -1px 0 rgba(10,14,30,.8), 0 2px 8px rgba(10,14,30,.6);
-}
-body.bgdark header.app .jp{
-  text-shadow:1px 0 0 rgba(10,14,30,.75), -1px 0 0 rgba(10,14,30,.75), 0 1px 0 rgba(10,14,30,.75), 0 -1px 0 rgba(10,14,30,.75), 0 1px 6px rgba(10,14,30,.6);
+  color:#ffffff;
+  text-shadow:1px 0 0 #d40000, -1px 0 0 #d40000, 0 1px 0 #d40000, 0 -1px 0 #d40000, 1px 1px 0 #d40000, -1px 1px 0 #d40000, 1px -1px 0 #d40000, -1px -1px 0 #d40000, 0 1px 6px rgba(120,0,0,.5);
 }
 body.hasbg nav.tabs button{
   color:#ffffff; font-weight:700;
-  text-shadow:1px 0 0 rgba(10,14,30,.85), -1px 0 0 rgba(10,14,30,.85), 0 1px 0 rgba(10,14,30,.85), 0 -1px 0 rgba(10,14,30,.85), 1px 1px 0 rgba(10,14,30,.85), -1px -1px 0 rgba(10,14,30,.85), 0 2px 6px rgba(10,14,30,.55);
+  text-shadow:1px 0 0 #d40000, -1px 0 0 #d40000, 0 1px 0 #d40000, 0 -1px 0 #d40000, 1px 1px 0 #d40000, -1px 1px 0 #d40000, 1px -1px 0 #d40000, -1px -1px 0 #d40000, 0 2px 6px rgba(120,0,0,.5);
 }
 </style>
 </head>
@@ -1697,6 +1691,33 @@ let currentTab = 'today';
 function go(view, arg){ window.__view = view; window.__arg = arg||null; render(); window.scrollTo(0,0); }
 function setTab(tab){ currentTab = tab; document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('on', b.dataset.tab===tab)); go(tab); }
 document.querySelectorAll('nav.tabs button').forEach(b=>{ b.addEventListener('click', ()=>setTab(b.dataset.tab)); });
+/* ==== スワイプ操作 試作 2026-11-16: 左右で隣のページ／一番下で強く上へ弾くとホーム ==== */
+(function(){
+  const ORDER = ['today','guide','relations','growth','records','settings'];
+  let sx=0, sy=0, st=0, tracking=false;
+  function onForm(el){ return !!(el && el.closest && el.closest('input,textarea,select,[contenteditable="true"]')); }
+  document.addEventListener('touchstart', function(e){
+    if(e.touches.length!==1 || onForm(e.target)){ tracking=false; return; }
+    const t=e.touches[0]; sx=t.clientX; sy=t.clientY; st=Date.now(); tracking=true;
+  }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    if(!tracking) return; tracking=false;
+    const t=e.changedTouches && e.changedTouches[0]; if(!t) return;
+    const dx=t.clientX-sx, dy=t.clientY-sy, dt=Date.now()-st;
+    const adx=Math.abs(dx), ady=Math.abs(dy);
+    if(adx>=70 && adx>ady*1.6){
+      const i=ORDER.indexOf(currentTab); if(i<0) return;
+      const n = dx<0 ? Math.min(i+1, ORDER.length-1) : Math.max(i-1, 0);
+      if(n!==i) setTab(ORDER[n]);
+      return;
+    }
+    const atBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 2);
+    if(atBottom && dy<=-110 && ady>adx*1.6 && dt<=400){
+      if(currentTab!=='today') setTab('today');
+      else window.scrollTo({top:0, behavior:'smooth'});
+    }
+  }, {passive:true});
+})();
 function render(){
   applyBg();
   const v = window.__view || 'today';
